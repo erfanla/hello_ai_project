@@ -1,0 +1,298 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Color Packages</title>
+<style>
+/* Notte Pura
+   background #000000 | surface #141414 | text #FFFFFF | muted #A3A3A3 | line #2B2B2B
+   yes #FFB547 (yes text #000000) | no #1F1F1F (no text #FFFFFF)
+   avatars #FFD25E->#FF9A1F, #4FE3A5->#18B877, #7D95FF->#8A5CFF, #FF7A6B->#FF4F8B, #F7F2E8->#CFC6B4 */
+#p1{--bg:#000000;--sf:#141414;--tx:#FFFFFF;--mu:#A3A3A3;--ln:#2B2B2B;--yes:#FFB547;--yt:#000000;--no:#1F1F1F;--nt:#FFFFFF;
+--a0:linear-gradient(135deg,#FFD25E,#FF9A1F);--a1:linear-gradient(135deg,#4FE3A5,#18B877);--a2:linear-gradient(135deg,#7D95FF,#8A5CFF);--a3:linear-gradient(135deg,#FF7A6B,#FF4F8B);--a4:linear-gradient(135deg,#F7F2E8,#CFC6B4);}
+/* Mezzanotte
+   background #0A0F1F | surface #141B32 | text #EEF1FA | muted #9AA4C4 | line #253052
+   yes #7CF2C8 (yes text #0A0F1F) | no #1D2644 (no text #EEF1FA)
+   avatars #FFD873->#FFAE4F, #FF9DB4->#FF6F91, #7CF2C8->#38D1A0, #A99BFF->#7B6BFF, #6FD3FF->#3AA6FF */
+#p2{--bg:#0A0F1F;--sf:#141B32;--tx:#EEF1FA;--mu:#9AA4C4;--ln:#253052;--yes:#7CF2C8;--yt:#0A0F1F;--no:#1D2644;--nt:#EEF1FA;
+--a0:linear-gradient(135deg,#FFD873,#FFAE4F);--a1:linear-gradient(135deg,#FF9DB4,#FF6F91);--a2:linear-gradient(135deg,#7CF2C8,#38D1A0);--a3:linear-gradient(135deg,#A99BFF,#7B6BFF);--a4:linear-gradient(135deg,#6FD3FF,#3AA6FF);}
+/* Espresso
+   background #17100B | surface #241912 | text #F7EBDC | muted #C2AB95 | line #3B2B1F
+   yes #F4A93E (yes text #17100B) | no #31231A (no text #F7EBDC)
+   avatars #F2805A->#E2553A, #B9CC66->#8FA63E, #F5D99E->#E6B866, #D48BB4->#B05F92, #7FC7A0->#4FA67A */
+#p3{--bg:#17100B;--sf:#241912;--tx:#F7EBDC;--mu:#C2AB95;--ln:#3B2B1F;--yes:#F4A93E;--yt:#17100B;--no:#31231A;--nt:#F7EBDC;
+--a0:linear-gradient(135deg,#F2805A,#E2553A);--a1:linear-gradient(135deg,#B9CC66,#8FA63E);--a2:linear-gradient(135deg,#F5D99E,#E6B866);--a3:linear-gradient(135deg,#D48BB4,#B05F92);--a4:linear-gradient(135deg,#7FC7A0,#4FA67A);}
+/* Bosco
+   background #0C1511 | surface #15231C | text #EAF4ED | muted #9BB5A6 | line #24382E
+   yes #D4F25A (yes text #0C1511) | no #1C2E25 (no text #EAF4ED)
+   avatars #FFBE73->#FF9447, #FF8FAB->#FF6688, #8FD6FF->#55B4F5, #D4F25A->#A9D12E, #BCA3FF->#9478F5 */
+#p4{--bg:#0C1511;--sf:#15231C;--tx:#EAF4ED;--mu:#9BB5A6;--ln:#24382E;--yes:#D4F25A;--yt:#0C1511;--no:#1C2E25;--nt:#EAF4ED;
+--a0:linear-gradient(135deg,#FFBE73,#FF9447);--a1:linear-gradient(135deg,#FF8FAB,#FF6688);--a2:linear-gradient(135deg,#8FD6FF,#55B4F5);--a3:linear-gradient(135deg,#D4F25A,#A9D12E);--a4:linear-gradient(135deg,#BCA3FF,#9478F5);}
+/* Disco Prugna
+   background #13081F | surface #21102F | text #FFF3FA | muted #C0A8D1 | line #3A2350
+   yes #FF5FB2 (yes text #13081F) | no #2B1A3D (no text #FFF3FA)
+   avatars #FFE45C->#FFC21F, #4FF0DF->#1FC7C9, #FF9550->#FF6A2B, #9A8CFF->#6E5BFF, #FF5FB2->#E8379A */
+#p5{--bg:#13081F;--sf:#21102F;--tx:#FFF3FA;--mu:#C0A8D1;--ln:#3A2350;--yes:#FF5FB2;--yt:#13081F;--no:#2B1A3D;--nt:#FFF3FA;
+--a0:linear-gradient(135deg,#FFE45C,#FFC21F);--a1:linear-gradient(135deg,#4FF0DF,#1FC7C9);--a2:linear-gradient(135deg,#FF9550,#FF6A2B);--a3:linear-gradient(135deg,#9A8CFF,#6E5BFF);--a4:linear-gradient(135deg,#FF5FB2,#E8379A);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0d0d0d;color:#eee;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;padding:32px 16px 64px}
+.intro{max-width:1040px;margin:0 auto 28px} .intro h1{font-family:"New York",ui-serif,Georgia,serif;font-size:36px;font-weight:600}
+.intro p{color:#aaa;margin-top:8px;line-height:1.5;max-width:680px}
+.pkg{max-width:1040px;margin:0 auto 40px;background:var(--bg);border:1px solid var(--ln);border-radius:24px;padding:28px;color:var(--tx)}
+.pkg header{display:flex;gap:14px;align-items:center;margin-bottom:22px}
+.num{width:36px;height:36px;border-radius:50%;background:var(--yes);color:var(--yt);display:grid;place-items:center;font-weight:700}
+.pkg h2{font-family:"New York",ui-serif,Georgia,serif;font-size:30px;font-weight:600}
+.feel{color:var(--mu);margin-top:2px}
+.row{display:flex;gap:28px;flex-wrap:wrap}
+.phone{width:360px;max-width:100%;background:var(--bg);border:1px solid var(--ln);border-radius:36px;padding:18px 20px 22px;position:relative;overflow:hidden}
+.status{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--tx);margin-bottom:14px}
+.lines{position:absolute;inset:40px 20px auto;height:120px;display:flex;justify-content:space-between;pointer-events:none}
+.lines i{width:1px;background:var(--ln)}
+.hero{position:relative;display:flex;align-items:center;gap:10px;margin:18px 0 14px}
+.small{font-size:14px;color:var(--mu)}
+.phone h3{font-family:"New York",ui-serif,Georgia,serif;font-size:36px;line-height:1.08;font-weight:600;margin-bottom:18px;position:relative}
+.emo{font-size:30px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:20px;padding:16px}
+.place{font-size:18px;font-weight:600} .mut{color:var(--mu)} .card .mut{font-size:14px;margin-top:2px}
+.hr{height:1px;background:var(--ln);margin:12px 0}
+.dead{font-size:14px;display:flex;align-items:center;gap:8px} .dot{width:8px;height:8px;border-radius:50%;background:var(--yes)}
+.going{margin:18px 0} .lbl{font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.avs{display:flex;align-items:center;margin-top:8px} .avs .av+.av{margin-left:-8px}
+.names{margin-left:10px;font-size:15px}
+.av{width:40px;height:40px;display:inline-grid;place-items:center;font-weight:700;font-size:15px;color:rgba(0,0,0,.72);border:2px solid var(--bg);flex:none}
+.av.big{width:48px;height:48px;font-size:18px}
+.btns{display:flex;flex-direction:column;gap:10px}
+.b{display:block;text-align:center;border-radius:999px;padding:17px;font-size:18px;font-weight:600}
+.yes{background:var(--yes);color:var(--yt)} .no{background:var(--no);color:var(--nt);border:1px solid var(--ln)}
+.tiny{font-size:12px;text-align:center;margin-top:12px}
+.side{flex:1;min-width:280px;display:flex;flex-direction:column;gap:18px}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.chip{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:4px;font-size:13px}
+.chip .sw{height:38px;border-radius:10px;border:1px solid var(--ln);display:block}
+.chip code{color:var(--mu);font-size:11.5px;font-family:ui-monospace,Menlo,monospace}
+.contrast{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;font-size:14px;line-height:1.7}
+.contrast b{font-variant-numeric:tabular-nums} .pass{color:var(--yes);font-weight:600;margin-top:4px}
+.celebrate{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px}
+.stage{position:relative;height:110px;display:flex;align-items:flex-end;justify-content:center;gap:14px;padding-bottom:8px}
+.burger{width:70px;transform:translateY(-26px) rotate(-8deg);display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))}
+.bun{width:70px;height:30px;border-radius:35px 35px 8px 8px;background:var(--a0)}
+.let{width:76px;height:7px;border-radius:6px;background:var(--a1);margin-top:2px}
+.pat{width:72px;height:13px;border-radius:7px;background:var(--a3);margin-top:2px;filter:brightness(.75)}
+.bot{width:70px;height:13px;border-radius:4px 4px 14px 14px;background:var(--a0);margin-top:2px}
+.spark{position:absolute;width:2px;height:16px;background:var(--yes);border-radius:2px;left:50%}
+.s1{top:4px;transform:translateX(-46px) rotate(-35deg)} .s2{top:0;transform:translateX(-4px)} .s3{top:4px;transform:translateX(38px) rotate(35deg)}
+.s4{top:30px;transform:translateX(56px) rotate(70deg);background:var(--a2)}
+.inmsg{position:absolute;right:6px;top:6px;font-family:"New York",ui-serif,Georgia,serif;font-size:20px;font-weight:600;color:var(--yes)}
+.stage .av:nth-of-type(5){transform:translateY(-10px)}
+@media(max-width:600px){.pkg{padding:18px} .phone h3{font-size:30px}}
+</style></head><body>
+<div class="intro"><h1>Pick a color package</h1><p>Five ready-made dark color sets for the Answer page. Each one shows every color with its job, a real phone screen, and the "You're in!" moment. The <b>Yes</b> color is the happy one; <b>No</b> is always calm and neutral. Just tell me the number you like (or mix: "colors of 3, Yes button of 1").</p></div>
+
+<section class="pkg" id="p1">
+ <header><span class="num">1</span><div><h2>Notte Pura</h2><p class="feel">Pure black, big white words, one warm lamp. Calm and confident — closest to your inspiration.</p></div></header>
+ <div class="row">
+  <div class="phone">
+   <div class="status"><span>20:18</span><span>●●● ▮</span></div>
+   <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="hero"><span class="av big" style="background:var(--a0);border-radius:50%">S</span><span class="small">Soroush invites you</span></div>
+   <h3>Burger tonight<br>at 20:00 <span class="emo">🍔</span></h3>
+   <div class="card">
+     <div class="place">Burgeria da Gino</div>
+     <div class="mut">Via Roma 14 · $$</div>
+     <div class="hr"></div>
+     <div class="dead"><span class="dot"></span>answer within 42 min</div>
+   </div>
+   <div class="going"><span class="mut lbl">Who's going</span>
+     <div class="avs"><span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span><span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="names">Sara, Reza</span></div></div>
+   <div class="btns"><span class="b yes">Yes, I'm in</span><span class="b no">No</span></div>
+   <p class="mut tiny">No pressure — nobody sees a reason.</p>
+  </div>
+  <div class="side">
+   <div class="chips"><div class="chip"><span class="sw" style="background:#000000"></span><b>Background</b><code>#000000</code></div><div class="chip"><span class="sw" style="background:#141414"></span><b>Surface (cards)</b><code>#141414</code></div><div class="chip"><span class="sw" style="background:#FFFFFF"></span><b>Text</b><code>#FFFFFF</code></div><div class="chip"><span class="sw" style="background:#A3A3A3"></span><b>Muted text</b><code>#A3A3A3</code></div><div class="chip"><span class="sw" style="background:#2B2B2B"></span><b>Line</b><code>#2B2B2B</code></div><div class="chip"><span class="sw" style="background:#FFB547"></span><b>Yes / accent</b><code>#FFB547</code></div><div class="chip"><span class="sw" style="background:#1F1F1F"></span><b>No / calm</b><code>#1F1F1F</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FFD25E,#FF9A1F);border-radius:50%"></span><b>Avatar 1</b><code>#FFD25E → #FF9A1F</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#4FE3A5,#18B877);border-radius:50% 50% 50% 8px"></span><b>Avatar 2</b><code>#4FE3A5 → #18B877</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#7D95FF,#8A5CFF);border-radius:50% 50% 12px 12px"></span><b>Avatar 3</b><code>#7D95FF → #8A5CFF</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FF7A6B,#FF4F8B);border-radius:14px"></span><b>Avatar 4</b><code>#FF7A6B → #FF4F8B</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#F7F2E8,#CFC6B4);border-radius:50% 8px 50% 8px"></span><b>Avatar 5</b><code>#F7F2E8 → #CFC6B4</code></div></div>
+   <div class="contrast">
+    <div><b>21.0:1</b> text on background</div>
+    <div><b>18.4:1</b> text on card</div>
+    <div><b>8.3:1</b> muted on background · <b>7.3:1</b> on card</div>
+    <div><b>12.0:1</b> Yes-button text on Yes</div>
+    <div><b>16.5:1</b> No-button text on No</div>
+    <div class="pass">All pass WCAG AA (4.5:1 needed)</div>
+   </div>
+   <div class="celebrate">
+     <span class="mut lbl">"You're in!" celebration</span>
+     <div class="stage">
+       <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+       <span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span>
+       <div class="burger"><span class="bun"></span><span class="let"></span><span class="pat"></span><span class="bot"></span></div>
+       <span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="av " style="background:var(--a4);border-radius:50% 8px 50% 8px">Y</span>
+       <span class="inmsg">You're in!</span>
+     </div>
+   </div>
+  </div>
+ </div>
+</section>
+<section class="pkg" id="p2">
+ <header><span class="num">2</span><div><h2>Mezzanotte</h2><p class="feel">Deep midnight blue, like a city sky at 23:00. Cool, soft and a bit dreamy.</p></div></header>
+ <div class="row">
+  <div class="phone">
+   <div class="status"><span>20:18</span><span>●●● ▮</span></div>
+   <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="hero"><span class="av big" style="background:var(--a0);border-radius:50%">S</span><span class="small">Soroush invites you</span></div>
+   <h3>Burger tonight<br>at 20:00 <span class="emo">🍔</span></h3>
+   <div class="card">
+     <div class="place">Burgeria da Gino</div>
+     <div class="mut">Via Roma 14 · $$</div>
+     <div class="hr"></div>
+     <div class="dead"><span class="dot"></span>answer within 42 min</div>
+   </div>
+   <div class="going"><span class="mut lbl">Who's going</span>
+     <div class="avs"><span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span><span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="names">Sara, Reza</span></div></div>
+   <div class="btns"><span class="b yes">Yes, I'm in</span><span class="b no">No</span></div>
+   <p class="mut tiny">No pressure — nobody sees a reason.</p>
+  </div>
+  <div class="side">
+   <div class="chips"><div class="chip"><span class="sw" style="background:#0A0F1F"></span><b>Background</b><code>#0A0F1F</code></div><div class="chip"><span class="sw" style="background:#141B32"></span><b>Surface (cards)</b><code>#141B32</code></div><div class="chip"><span class="sw" style="background:#EEF1FA"></span><b>Text</b><code>#EEF1FA</code></div><div class="chip"><span class="sw" style="background:#9AA4C4"></span><b>Muted text</b><code>#9AA4C4</code></div><div class="chip"><span class="sw" style="background:#253052"></span><b>Line</b><code>#253052</code></div><div class="chip"><span class="sw" style="background:#7CF2C8"></span><b>Yes / accent</b><code>#7CF2C8</code></div><div class="chip"><span class="sw" style="background:#1D2644"></span><b>No / calm</b><code>#1D2644</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FFD873,#FFAE4F);border-radius:50%"></span><b>Avatar 1</b><code>#FFD873 → #FFAE4F</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FF9DB4,#FF6F91);border-radius:50% 50% 50% 8px"></span><b>Avatar 2</b><code>#FF9DB4 → #FF6F91</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#7CF2C8,#38D1A0);border-radius:50% 50% 12px 12px"></span><b>Avatar 3</b><code>#7CF2C8 → #38D1A0</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#A99BFF,#7B6BFF);border-radius:14px"></span><b>Avatar 4</b><code>#A99BFF → #7B6BFF</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#6FD3FF,#3AA6FF);border-radius:50% 8px 50% 8px"></span><b>Avatar 5</b><code>#6FD3FF → #3AA6FF</code></div></div>
+   <div class="contrast">
+    <div><b>16.9:1</b> text on background</div>
+    <div><b>15.1:1</b> text on card</div>
+    <div><b>7.7:1</b> muted on background · <b>6.9:1</b> on card</div>
+    <div><b>14.0:1</b> Yes-button text on Yes</div>
+    <div><b>13.2:1</b> No-button text on No</div>
+    <div class="pass">All pass WCAG AA (4.5:1 needed)</div>
+   </div>
+   <div class="celebrate">
+     <span class="mut lbl">"You're in!" celebration</span>
+     <div class="stage">
+       <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+       <span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span>
+       <div class="burger"><span class="bun"></span><span class="let"></span><span class="pat"></span><span class="bot"></span></div>
+       <span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="av " style="background:var(--a4);border-radius:50% 8px 50% 8px">Y</span>
+       <span class="inmsg">You're in!</span>
+     </div>
+   </div>
+  </div>
+ </div>
+</section>
+<section class="pkg" id="p3">
+ <header><span class="num">3</span><div><h2>Espresso</h2><p class="feel">Dark coffee and warm light — an Italian evening on a terrace. Cozy and friendly.</p></div></header>
+ <div class="row">
+  <div class="phone">
+   <div class="status"><span>20:18</span><span>●●● ▮</span></div>
+   <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="hero"><span class="av big" style="background:var(--a0);border-radius:50%">S</span><span class="small">Soroush invites you</span></div>
+   <h3>Burger tonight<br>at 20:00 <span class="emo">🍔</span></h3>
+   <div class="card">
+     <div class="place">Burgeria da Gino</div>
+     <div class="mut">Via Roma 14 · $$</div>
+     <div class="hr"></div>
+     <div class="dead"><span class="dot"></span>answer within 42 min</div>
+   </div>
+   <div class="going"><span class="mut lbl">Who's going</span>
+     <div class="avs"><span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span><span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="names">Sara, Reza</span></div></div>
+   <div class="btns"><span class="b yes">Yes, I'm in</span><span class="b no">No</span></div>
+   <p class="mut tiny">No pressure — nobody sees a reason.</p>
+  </div>
+  <div class="side">
+   <div class="chips"><div class="chip"><span class="sw" style="background:#17100B"></span><b>Background</b><code>#17100B</code></div><div class="chip"><span class="sw" style="background:#241912"></span><b>Surface (cards)</b><code>#241912</code></div><div class="chip"><span class="sw" style="background:#F7EBDC"></span><b>Text</b><code>#F7EBDC</code></div><div class="chip"><span class="sw" style="background:#C2AB95"></span><b>Muted text</b><code>#C2AB95</code></div><div class="chip"><span class="sw" style="background:#3B2B1F"></span><b>Line</b><code>#3B2B1F</code></div><div class="chip"><span class="sw" style="background:#F4A93E"></span><b>Yes / accent</b><code>#F4A93E</code></div><div class="chip"><span class="sw" style="background:#31231A"></span><b>No / calm</b><code>#31231A</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#F2805A,#E2553A);border-radius:50%"></span><b>Avatar 1</b><code>#F2805A → #E2553A</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#B9CC66,#8FA63E);border-radius:50% 50% 50% 8px"></span><b>Avatar 2</b><code>#B9CC66 → #8FA63E</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#F5D99E,#E6B866);border-radius:50% 50% 12px 12px"></span><b>Avatar 3</b><code>#F5D99E → #E6B866</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#D48BB4,#B05F92);border-radius:14px"></span><b>Avatar 4</b><code>#D48BB4 → #B05F92</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#7FC7A0,#4FA67A);border-radius:50% 8px 50% 8px"></span><b>Avatar 5</b><code>#7FC7A0 → #4FA67A</code></div></div>
+   <div class="contrast">
+    <div><b>16.0:1</b> text on background</div>
+    <div><b>14.6:1</b> text on card</div>
+    <div><b>8.6:1</b> muted on background · <b>7.8:1</b> on card</div>
+    <div><b>9.5:1</b> Yes-button text on Yes</div>
+    <div><b>12.9:1</b> No-button text on No</div>
+    <div class="pass">All pass WCAG AA (4.5:1 needed)</div>
+   </div>
+   <div class="celebrate">
+     <span class="mut lbl">"You're in!" celebration</span>
+     <div class="stage">
+       <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+       <span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span>
+       <div class="burger"><span class="bun"></span><span class="let"></span><span class="pat"></span><span class="bot"></span></div>
+       <span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="av " style="background:var(--a4);border-radius:50% 8px 50% 8px">Y</span>
+       <span class="inmsg">You're in!</span>
+     </div>
+   </div>
+  </div>
+ </div>
+</section>
+<section class="pkg" id="p4">
+ <header><span class="num">4</span><div><h2>Bosco</h2><p class="feel">Dark forest green with a bright lime spark. Fresh, alive, a bit outdoorsy.</p></div></header>
+ <div class="row">
+  <div class="phone">
+   <div class="status"><span>20:18</span><span>●●● ▮</span></div>
+   <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="hero"><span class="av big" style="background:var(--a0);border-radius:50%">S</span><span class="small">Soroush invites you</span></div>
+   <h3>Burger tonight<br>at 20:00 <span class="emo">🍔</span></h3>
+   <div class="card">
+     <div class="place">Burgeria da Gino</div>
+     <div class="mut">Via Roma 14 · $$</div>
+     <div class="hr"></div>
+     <div class="dead"><span class="dot"></span>answer within 42 min</div>
+   </div>
+   <div class="going"><span class="mut lbl">Who's going</span>
+     <div class="avs"><span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span><span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="names">Sara, Reza</span></div></div>
+   <div class="btns"><span class="b yes">Yes, I'm in</span><span class="b no">No</span></div>
+   <p class="mut tiny">No pressure — nobody sees a reason.</p>
+  </div>
+  <div class="side">
+   <div class="chips"><div class="chip"><span class="sw" style="background:#0C1511"></span><b>Background</b><code>#0C1511</code></div><div class="chip"><span class="sw" style="background:#15231C"></span><b>Surface (cards)</b><code>#15231C</code></div><div class="chip"><span class="sw" style="background:#EAF4ED"></span><b>Text</b><code>#EAF4ED</code></div><div class="chip"><span class="sw" style="background:#9BB5A6"></span><b>Muted text</b><code>#9BB5A6</code></div><div class="chip"><span class="sw" style="background:#24382E"></span><b>Line</b><code>#24382E</code></div><div class="chip"><span class="sw" style="background:#D4F25A"></span><b>Yes / accent</b><code>#D4F25A</code></div><div class="chip"><span class="sw" style="background:#1C2E25"></span><b>No / calm</b><code>#1C2E25</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FFBE73,#FF9447);border-radius:50%"></span><b>Avatar 1</b><code>#FFBE73 → #FF9447</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FF8FAB,#FF6688);border-radius:50% 50% 50% 8px"></span><b>Avatar 2</b><code>#FF8FAB → #FF6688</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#8FD6FF,#55B4F5);border-radius:50% 50% 12px 12px"></span><b>Avatar 3</b><code>#8FD6FF → #55B4F5</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#D4F25A,#A9D12E);border-radius:14px"></span><b>Avatar 4</b><code>#D4F25A → #A9D12E</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#BCA3FF,#9478F5);border-radius:50% 8px 50% 8px"></span><b>Avatar 5</b><code>#BCA3FF → #9478F5</code></div></div>
+   <div class="contrast">
+    <div><b>16.5:1</b> text on background</div>
+    <div><b>14.5:1</b> text on card</div>
+    <div><b>8.4:1</b> muted on background · <b>7.4:1</b> on card</div>
+    <div><b>14.7:1</b> Yes-button text on Yes</div>
+    <div><b>12.7:1</b> No-button text on No</div>
+    <div class="pass">All pass WCAG AA (4.5:1 needed)</div>
+   </div>
+   <div class="celebrate">
+     <span class="mut lbl">"You're in!" celebration</span>
+     <div class="stage">
+       <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+       <span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span>
+       <div class="burger"><span class="bun"></span><span class="let"></span><span class="pat"></span><span class="bot"></span></div>
+       <span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="av " style="background:var(--a4);border-radius:50% 8px 50% 8px">Y</span>
+       <span class="inmsg">You're in!</span>
+     </div>
+   </div>
+  </div>
+ </div>
+</section>
+<section class="pkg" id="p5">
+ <header><span class="num">5</span><div><h2>Disco Prugna</h2><p class="feel">Deep plum with hot pink and electric colors. Bold, loud, party mode — the surprise.</p></div></header>
+ <div class="row">
+  <div class="phone">
+   <div class="status"><span>20:18</span><span>●●● ▮</span></div>
+   <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+   <div class="hero"><span class="av big" style="background:var(--a0);border-radius:50%">S</span><span class="small">Soroush invites you</span></div>
+   <h3>Burger tonight<br>at 20:00 <span class="emo">🍔</span></h3>
+   <div class="card">
+     <div class="place">Burgeria da Gino</div>
+     <div class="mut">Via Roma 14 · $$</div>
+     <div class="hr"></div>
+     <div class="dead"><span class="dot"></span>answer within 42 min</div>
+   </div>
+   <div class="going"><span class="mut lbl">Who's going</span>
+     <div class="avs"><span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span><span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="names">Sara, Reza</span></div></div>
+   <div class="btns"><span class="b yes">Yes, I'm in</span><span class="b no">No</span></div>
+   <p class="mut tiny">No pressure — nobody sees a reason.</p>
+  </div>
+  <div class="side">
+   <div class="chips"><div class="chip"><span class="sw" style="background:#13081F"></span><b>Background</b><code>#13081F</code></div><div class="chip"><span class="sw" style="background:#21102F"></span><b>Surface (cards)</b><code>#21102F</code></div><div class="chip"><span class="sw" style="background:#FFF3FA"></span><b>Text</b><code>#FFF3FA</code></div><div class="chip"><span class="sw" style="background:#C0A8D1"></span><b>Muted text</b><code>#C0A8D1</code></div><div class="chip"><span class="sw" style="background:#3A2350"></span><b>Line</b><code>#3A2350</code></div><div class="chip"><span class="sw" style="background:#FF5FB2"></span><b>Yes / accent</b><code>#FF5FB2</code></div><div class="chip"><span class="sw" style="background:#2B1A3D"></span><b>No / calm</b><code>#2B1A3D</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FFE45C,#FFC21F);border-radius:50%"></span><b>Avatar 1</b><code>#FFE45C → #FFC21F</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#4FF0DF,#1FC7C9);border-radius:50% 50% 50% 8px"></span><b>Avatar 2</b><code>#4FF0DF → #1FC7C9</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FF9550,#FF6A2B);border-radius:50% 50% 12px 12px"></span><b>Avatar 3</b><code>#FF9550 → #FF6A2B</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#9A8CFF,#6E5BFF);border-radius:14px"></span><b>Avatar 4</b><code>#9A8CFF → #6E5BFF</code></div><div class="chip"><span class="sw" style="background:linear-gradient(135deg,#FF5FB2,#E8379A);border-radius:50% 8px 50% 8px"></span><b>Avatar 5</b><code>#FF5FB2 → #E8379A</code></div></div>
+   <div class="contrast">
+    <div><b>18.0:1</b> text on background</div>
+    <div><b>16.5:1</b> text on card</div>
+    <div><b>9.0:1</b> muted on background · <b>8.3:1</b> on card</div>
+    <div><b>7.0:1</b> Yes-button text on Yes</div>
+    <div><b>14.8:1</b> No-button text on No</div>
+    <div class="pass">All pass WCAG AA (4.5:1 needed)</div>
+   </div>
+   <div class="celebrate">
+     <span class="mut lbl">"You're in!" celebration</span>
+     <div class="stage">
+       <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+       <span class="av " style="background:var(--a1);border-radius:50% 50% 50% 8px">S</span>
+       <div class="burger"><span class="bun"></span><span class="let"></span><span class="pat"></span><span class="bot"></span></div>
+       <span class="av " style="background:var(--a3);border-radius:14px">R</span><span class="av " style="background:var(--a4);border-radius:50% 8px 50% 8px">Y</span>
+       <span class="inmsg">You're in!</span>
+     </div>
+   </div>
+  </div>
+ </div>
+</section>
+</body></html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key screen — Pick avatar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* KEY SCREEN: Pick your avatar (first time only)
+   Governed by (spine still empty — memlog decisions):
+   - Faces v1 option 2: each User picks an emoji face / fun character + a color at sign-up; no photo upload (photos in v1.1).
+     New field User.avatar (+ color) flagged for John/Winston.
+   - IA approved: Sign up / Log in -> Pick avatar (first time) -> Home.
+   - Color package Notte Pura: the 5 avatar gradients; each color comes with its own soft shape (from color-themes-1.html).
+   - Inspiration (How We Feel): colorful gradient shapes as playful characters, black background, white pill button. */
+/* ---- Notte Pura tokens (package 1, color-themes-1.html) — exact hex ----
+   Fonts (exception to the brief, approved typography decision):
+   - Headlines: "Gloock" (Google Fonts) — high-contrast, elegant display serif; rarer than Playfair/DM Serif.
+   - Body, times, buttons: "Onest" (Google Fonts) — clean, friendly sans with clear numbers.
+   Avatar = emoji face on a soft gradient shape (memlog: Faces v1 option 2). No initials.
+   Roster: Ali 🐙 a3/sh3 (the viewer) · Soroush 🦊 a0/sh0 · Sara 🐸 a1/sh1 · Reza 🐻 a2/sh2 · Leila 🦄 a4/sh4
+   Amber (--yes) is kept for Yes, celebration and Publish only. */
+:root{--bg:#000000;--sf:#141414;--tx:#FFFFFF;--mu:#A3A3A3;--ln:#2B2B2B;--yes:#FFB547;--yt:#000000;--no:#1F1F1F;--nt:#FFFFFF;
+--a0:linear-gradient(135deg,#FFD25E,#FF9A1F);--a1:linear-gradient(135deg,#4FE3A5,#18B877);--a2:linear-gradient(135deg,#7D95FF,#8A5CFF);--a3:linear-gradient(135deg,#FF7A6B,#FF4F8B);--a4:linear-gradient(135deg,#F7F2E8,#CFC6B4);
+--serif:"Gloock",ui-serif,Georgia,serif;--sans:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);padding:40px 16px 96px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.page-h{max-width:1560px;margin:0 auto 40px}
+.page-h h1{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.1}
+.page-h p{color:var(--mu);margin-top:8px;max-width:720px;line-height:1.5;font-size:15px}
+.row{display:flex;flex-wrap:wrap;gap:48px 40px;justify-content:center;align-items:flex-start;max-width:1560px;margin:0 auto}
+figure{width:360px;max-width:100%}
+figcaption{color:var(--mu);font-size:14px;line-height:1.5;margin-top:16px}
+figcaption b{color:var(--tx);display:block;font-weight:600;margin-bottom:2px}
+.phone{width:360px;max-width:100%;min-height:760px;background:var(--bg);border:1px solid var(--ln);border-radius:40px;padding:14px 20px 24px;position:relative;display:flex;flex-direction:column}
+.status{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:14px;padding:0 8px}
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.mu{color:var(--mu)}
+.lbl{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);font-weight:600}
+.av{display:inline-grid;place-items:center;width:40px;height:40px;font-size:22px;line-height:1;flex:none}
+.av.s{width:28px;height:28px;font-size:15px}
+.sh0{border-radius:50%}.sh1{border-radius:50% 50% 50% 10px}.sh2{border-radius:50% 50% 14px 14px}.sh3{border-radius:14px}.sh4{border-radius:50% 10px 50% 10px}
+.av.s.sh1{border-radius:50% 50% 50% 7px}.av.s.sh2{border-radius:50% 50% 9px 9px}.av.s.sh3{border-radius:9px}.av.s.sh4{border-radius:50% 7px 50% 7px}
+.g0{background:var(--a0)}.g1{background:var(--a1)}.g2{background:var(--a2)}.g3{background:var(--a3)}.g4{background:var(--a4)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:999px;font:600 17px/1 var(--sans);border:0;width:100%;cursor:pointer;text-decoration:none}
+.btn.yes{background:var(--yes);color:var(--yt)}
+.btn.no{background:var(--no);color:var(--nt)}
+.btn.white{background:#FFFFFF;color:#000000}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+.btn.text{background:transparent;color:var(--mu);min-height:44px;font-weight:500;font-size:15px}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--mu);font-size:15px;text-decoration:none;gap:6px}
+.replay{margin-top:14px;min-height:44px;padding:0 20px;border-radius:999px;background:var(--no);color:var(--tx);border:1px solid var(--ln);font:600 14px var(--sans);cursor:pointer}
+
+.phone{min-height:0}
+.step{font-size:14px;margin-top:6px}
+h2.serif{font-size:44px;line-height:1;margin-top:8px}
+.sub{font-size:15px;margin-top:10px;line-height:1.45}
+.preview{display:flex;flex-direction:column;align-items:center;gap:14px;margin:28px 0 8px}
+.preview>.av{width:132px;height:132px;font-size:76px;border-radius:40px;box-shadow:0 18px 50px -12px rgba(255,79,139,.45)}
+.chipin{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;background:#1F1F1F;border:1px solid var(--ln);border-radius:999px;padding:5px 14px 5px 5px}
+.field{margin-top:24px}
+.field .lbl{display:block;margin-bottom:10px}
+.faces{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.face{aspect-ratio:1;min-height:44px;border-radius:18px;background:var(--sf);border:1px solid var(--ln);display:grid;place-items:center;font-size:32px;cursor:pointer}
+.face.on{border:2px solid #FFFFFF;background:#1F1F1F}
+.colors{display:flex;justify-content:space-between;gap:8px}
+.sw{width:52px;height:52px;cursor:pointer;position:relative}
+.sw.on{box-shadow:0 0 0 3px #000,0 0 0 5px #FFFFFF}
+.go{margin-top:30px}
+.go .btn{min-height:58px;font-size:18px}
+</style>
+</head>
+<body>
+<header class="page-h">
+  <h1>Pick your avatar</h1>
+  <p>Shown once, right after sign-up. People pick a face and a color, so the Yes List can show faces without photo upload. The preview shows how you will look when you say Yes.</p>
+</header>
+<div class="row">
+<figure>
+  <div class="phone">
+    <div class="status"><span>18:40</span><span>●●● ▮</span></div>
+    <p class="step mu">Welcome, Ali</p>
+    <h2 class="serif">Pick your avatar</h2>
+    <p class="sub mu">Friends see it when you say Yes.</p>
+
+    <div class="preview">
+      <span class="av g3 sh3" style="border-radius:40px">🐙</span>
+      <span class="chipin"><span class="av s g3 sh3">🐙</span>Ali is in</span>
+    </div>
+
+    <div class="field">
+      <span class="lbl">Face</span>
+      <div class="faces">
+        <span class="face on" aria-label="Octopus, selected">🐙</span><span class="face">🦊</span><span class="face">🐻</span><span class="face">🐸</span>
+        <span class="face">🐼</span><span class="face">🦁</span><span class="face">🐯</span><span class="face">🐨</span>
+        <span class="face">🦄</span><span class="face">🐧</span><span class="face">👽</span><span class="face">🤖</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="lbl">Color</span>
+      <div class="colors">
+        <span class="sw g0 sh0" aria-label="Sun"></span>
+        <span class="sw g1 sh1" aria-label="Mint"></span>
+        <span class="sw g2 sh2" aria-label="Violet"></span>
+        <span class="sw g3 sh3 on" aria-label="Coral, selected"></span>
+        <span class="sw g4 sh4" aria-label="Cream"></span>
+      </div>
+    </div>
+
+    <div class="go"><button class="btn white">Continue</button><p style="text-align:center;margin:10px 0 0;font-size:14px;opacity:.7">Skip, surprise me 🎲</p></div>
+  </div>
+  <figcaption><b>First time: pick a face and a color</b>12 faces, 5 Notte Pura gradients (each with its own soft shape). Big live preview, plus a small "Ali is in" chip so people see where the avatar will appear. One white Continue button.</figcaption>
+</figure>
+</div>
+</body>
+</html>

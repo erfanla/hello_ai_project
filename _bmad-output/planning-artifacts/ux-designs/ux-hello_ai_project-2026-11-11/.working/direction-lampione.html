@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction A: Lampione</title>
+<style>
+/* =========================================================
+   DIRECTION A — "LAMPIONE" (street lamp) — quiet editorial night
+   Palette
+   --ink        #10131A  page / screen background (blue-black, not pure black)
+   --ink-2      #161A23  raised strip (very subtle)
+   --rule       #2A303C  hairlines
+   --paper      #ECE6DA  main text (warm white)
+   --muted      #8D93A1  secondary text
+   --sodium     #FFB547  the one light: street lamp amber (Yes, deadline fuse)
+   --sodium-dim #6B4E22  amber at low power
+   Burger theme  bg #1A110C  accent #FF7A3D  rule #3A2418  text #F3E3D3
+   Sushi theme   bg #0D1517  accent #FF8A70  rule #1F3530  text #EEF2EE  nori #1B2622
+   Type: system sans, weight 300 for big text, 600 for tiny labels; tabular numbers.
+   Motion: slow and soft. A lamp turns on; light blooms out past the frame.
+   ========================================================= */
+:root{
+  --ink:#10131A; --ink-2:#161A23; --rule:#2A303C; --paper:#ECE6DA; --muted:#8D93A1;
+  --sodium:#FFB547; --sodium-dim:#6B4E22;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#07090D;color:var(--paper);font-family:var(--sans);padding:40px 16px 80px;-webkit-font-smoothing:antialiased}
+.intro{max-width:760px;margin:0 0 48px}
+.intro .tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sodium);font-weight:600}
+.intro h1{font-weight:300;font-size:44px;letter-spacing:-.02em;margin:8px 0 16px}
+.intro p{color:var(--muted);font-size:15px;line-height:1.6;max-width:62ch}
+.row{display:flex;flex-wrap:wrap;gap:48px 40px;align-items:flex-start}
+figure{width:360px;max-width:100%}
+figcaption{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.5}
+figcaption b{color:var(--paper);font-weight:600;display:block;font-size:13px}
+.replay{margin-top:10px;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;background:none;color:var(--sodium);border:1px solid var(--sodium-dim);padding:9px 14px;border-radius:2px;cursor:pointer}
+.replay:hover{border-color:var(--sodium)}
+
+/* phone frame */
+.phone{width:360px;max-width:100%;height:740px;background:var(--ink);border-radius:34px;outline:1px solid #222733;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.phone.open{overflow:visible} /* lets the celebration leave the screen */
+.status{height:36px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none}
+.scr{padding:12px 24px 24px;flex:1;display:flex;flex-direction:column;position:relative}
+
+.label{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.from{margin-top:18px}
+.from .who{color:var(--paper)}
+.what{font-weight:300;font-size:46px;line-height:1.02;letter-spacing:-.03em;margin:10px 0 0}
+.what em{font-style:normal;color:var(--sodium)}
+.meta{margin-top:26px;border-top:1px solid var(--rule)}
+.meta div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.meta span:first-child{color:var(--muted)}
+.meta span:last-child{font-variant-numeric:tabular-nums}
+.cost b{color:var(--paper);font-weight:600}.cost i{font-style:normal;color:#3A404D}
+
+/* deadline: a fuse that burns down */
+.fuse{margin-top:22px}
+.fuse p{font-size:14px;display:flex;justify-content:space-between}
+.fuse p b{font-weight:400;color:var(--sodium);font-variant-numeric:tabular-nums}
+.fuse .line{height:2px;background:var(--rule);margin-top:10px;position:relative}
+.fuse .line::after{content:"";position:absolute;left:0;top:0;bottom:0;width:var(--left,35%);background:var(--sodium);box-shadow:0 0 12px var(--sodium)}
+
+.going{margin-top:22px;font-size:15px;line-height:1.5}
+.going span{color:var(--muted)}
+
+.answer{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--rule)}
+.answer button{font:300 30px var(--sans);letter-spacing:-.02em;text-align:left;padding:22px 0 8px;background:none;border:0;color:var(--paper);cursor:pointer}
+.answer .yes{color:var(--ink);background:var(--sodium);padding-left:18px;margin-right:12px}
+.answer .no{border-bottom:1px solid var(--rule);padding-left:4px}
+.answer small{display:block;font:500 11px var(--sans);letter-spacing:.06em;margin-top:22px;opacity:.7}
+
+/* start screen */
+.h-wait{margin-top:14px;display:flex;justify-content:space-between;align-items:baseline}
+.h-wait .count{font-weight:300;font-size:13px;color:var(--sodium)}
+.inv{padding:16px 0;border-bottom:1px solid var(--rule);display:grid;grid-template-columns:1fr auto;gap:4px 12px}
+.inv:first-of-type{border-top:1px solid var(--rule);margin-top:10px}
+.inv .t{font-weight:300;font-size:24px;letter-spacing:-.02em;line-height:1.1}
+.inv .s{font-size:12.5px;color:var(--muted);grid-column:1}
+.inv .d{grid-column:2;grid-row:1/3;align-self:center;font-size:12px;color:var(--sodium);text-align:right;font-variant-numeric:tabular-nums;line-height:1.35}
+.inv.hot{position:relative}
+.inv.hot::before{content:"";position:absolute;left:-24px;top:16px;bottom:16px;width:3px;background:var(--sodium);box-shadow:0 0 14px var(--sodium)}
+.mine{margin-top:34px}
+.mp{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--rule);font-size:14.5px}
+.mp span:last-child{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.newplan{margin-top:auto;font:300 22px var(--sans);color:var(--paper);background:none;border:0;border-top:1px solid var(--rule);text-align:left;padding:18px 0 4px}
+.newplan b{color:var(--sodium);font-weight:300}
+
+/* ---------- YES celebration ---------- */
+.glow{position:absolute;left:50%;top:38%;width:900px;height:900px;margin:-450px 0 0 -450px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,181,71,.55) 0%, rgba(255,122,61,.18) 30%, rgba(255,181,71,0) 60%);pointer-events:none;opacity:0;z-index:5}
+.bigyes{position:absolute;left:-40px;right:-40px;top:150px;font-weight:200;font-size:210px;letter-spacing:-.07em;line-height:.8;color:var(--sodium);opacity:0;pointer-events:none;z-index:6;text-shadow:0 0 40px rgba(255,181,71,.6)}
+.youin{font-weight:300;font-size:46px;line-height:1.02;letter-spacing:-.03em;margin-top:10px}
+.youin em{font-style:normal;color:#FF7A3D}
+.yl{margin-top:24px;border-top:1px solid #3A2418}
+.yl li{list-style:none;display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #3A2418;font-size:17px;font-weight:300}
+.yl li span:last-child{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#B58A6E;font-weight:600;align-self:center}
+.yl li.me{color:#FF7A3D;font-weight:400}
+.burger{--bg:#1A110C}
+.phone.burger{background:#1A110C}
+.burger .meta div,.burger .meta{border-color:#3A2418}
+.burger .label{color:#B58A6E}
+.change{margin-top:auto;font-size:13px;color:#B58A6E;padding-top:16px;border-top:1px solid #3A2418;display:flex;justify-content:space-between}
+
+.play .glow{animation:bloom 2.2s cubic-bezier(.2,.7,.2,1) both}
+.play .bigyes{animation:yesout 1.6s cubic-bezier(.2,.8,.2,1) both}
+.play .settle{animation:fadein .6s 1.1s ease both}
+.play .yl li{animation:popin .5s cubic-bezier(.2,.9,.3,1.3) both}
+.play .yl li:nth-child(1){animation-delay:1.5s}
+.play .yl li:nth-child(2){animation-delay:1.9s}
+.play .yl li:nth-child(3){animation-delay:2.3s}
+.play.phone{animation:warm 1.4s .4s ease both}
+@keyframes bloom{0%{opacity:0;transform:scale(.1)}25%{opacity:1}100%{opacity:0;transform:scale(1.3)}}
+@keyframes yesout{0%{opacity:0;transform:translateY(80px) scale(.6)}30%{opacity:1;transform:translateY(0) scale(1.15)}70%{opacity:1;transform:translateY(-20px) scale(1.25)}100%{opacity:0;transform:translateY(-120px) scale(1.5)}}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes popin{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@keyframes warm{from{background:#10131A}to{background:#1A110C}}
+
+/* ---------- NO: calm ---------- */
+.calm{margin-top:auto;margin-bottom:auto}
+.calm .big{font-weight:300;font-size:40px;letter-spacing:-.03em;line-height:1.08}
+.calm p{color:var(--muted);font-size:15px;line-height:1.55;margin-top:16px;max-width:30ch}
+.calm .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);margin-bottom:22px}
+
+/* ---------- Sushi theme ---------- */
+.phone.sushi{background:#0D1517}
+.sushi .label{color:#7FA59A}
+.sushi .meta,.sushi .meta div,.sushi .yl,.sushi .yl li{border-color:#1F3530}
+.sushi .youin em,.sushi .yl li.me{color:#FF8A70}
+.sushi .yl li span:last-child{color:#7FA59A}
+.sushi .strip{height:10px;background:repeating-linear-gradient(90deg,#1B2622 0 18px,#0D1517 18px 22px);margin:0 -24px 18px}
+.burger .strip{height:10px;background:linear-gradient(#3A2418,#3A2418) 0 0/100% 3px no-repeat, linear-gradient(#FF7A3D,#FF7A3D) 0 5px/100% 2px no-repeat;margin:0 -24px 18px}
+
+@media (prefers-reduced-motion: reduce){
+  .play .glow,.play .bigyes,.play .settle,.play .yl li,.play.phone{animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<section class="intro">
+  <div class="tag">Direction A</div>
+  <h1>Lampione</h1>
+  <p>A quiet night street in Torino: big light text, thin lines, and only one light on the page, a warm street-lamp amber that marks what matters (your Yes and the time left). It feels like reading a good magazine at night, not using an app. The fun is soft but big: when you say Yes, the lamp turns on and the light spills out past the edge of the phone.</p>
+</section>
+
+<div class="row">
+
+<!-- HERO: answer page -->
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:18</span><span>5G</span></div>
+    <div class="scr">
+      <div class="label from">Invitation from <span class="who">Soroush</span></div>
+      <h2 class="what">Burger<br>tonight at <em>20:00</em> 🍔</h2>
+      <div class="meta">
+        <div><span>Where</span><span>Burgeria da Gino, Via Roma 14</span></div>
+        <div><span>When</span><span>Fri 21 Nov, 20:00</span></div>
+        <div><span>Cost</span><span class="cost"><b>$$</b><i>$</i></span></div>
+      </div>
+      <div class="fuse" style="--left:35%">
+        <p><span>Answer within</span><b>42 min</b></p>
+        <div class="line"></div>
+      </div>
+      <p class="going">Sara, Reza are going<br><span>You can answer now or later.</span></p>
+      <div class="answer">
+        <button class="yes">Yes<small>I'm in</small></button>
+        <button class="no">No<small>Not this time</small></button>
+      </div>
+    </div>
+  </div>
+  <figcaption><b>Answer page (hero)</b>Opened from the notification. Everything to decide is on one page. One tap to answer.</figcaption>
+</figure>
+
+<!-- Start screen -->
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:20</span><span>5G</span></div>
+    <div class="scr">
+      <div class="h-wait"><span class="label">Waiting for your answer</span><span class="count">2</span></div>
+      <div class="inv hot">
+        <div class="t">Burger tonight</div>
+        <div class="s">Soroush · Via Roma 14 · $$</div>
+        <div class="d">42 min<br>left</div>
+      </div>
+      <div class="inv">
+        <div class="t">Sushi on Saturday</div>
+        <div class="s">Leila · Corso Vinzaglio 8 · $$$</div>
+        <div class="d">5 h<br>left</div>
+      </div>
+      <div class="mine">
+        <div class="label">My Plans</div>
+        <div style="margin-top:10px;border-top:1px solid var(--rule)">
+          <div class="mp"><span>Aperitivo, Piazza Vittorio</span><span>Thu 20 Nov · 4 going</span></div>
+          <div class="mp"><span>Football, Parco del Valentino</span><span>Sun 23 Nov · 7 going</span></div>
+        </div>
+      </div>
+      <button class="newplan"><b>+</b> New plan</button>
+    </div>
+  </div>
+  <figcaption><b>Start screen</b>Open Invitations sit on top, the closest deadline first with a small lamp mark. No search needed.</figcaption>
+</figure>
+
+<!-- YES celebration -->
+<figure>
+  <div class="phone open burger play" id="yesA">
+    <div class="glow"></div>
+    <div class="bigyes">Yes.</div>
+    <div class="status"><span>19:21</span><span>5G</span></div>
+    <div class="scr">
+      <div class="strip settle"></div>
+      <div class="settle">
+        <div class="label">Burger · Fri 21 Nov, 20:00</div>
+        <h2 class="youin">You're in.<br><em>See you at 20:00.</em></h2>
+      </div>
+      <ul class="yl">
+        <li><span>Reza is in</span><span>Yes</span></li>
+        <li><span>Sara is in</span><span>Yes</span></li>
+        <li class="me"><span>You're in!</span><span>Yes</span></li>
+      </ul>
+      <div class="change settle"><span>Burgeria da Gino, Via Roma 14</span><span>Change answer</span></div>
+    </div>
+  </div>
+  <button class="replay" data-replay="yesA">Replay Yes</button>
+  <figcaption><b>State a: after Yes (+ burger theme)</b>The lamp turns on: amber light blooms out past the phone edge and a huge "Yes." rises and fades. Then the page warms to the burger look, and the Yes List comes in one name at a time.</figcaption>
+</figure>
+
+<!-- NO calm -->
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:21</span><span>5G</span></div>
+    <div class="scr">
+      <div class="label">Burger · Fri 21 Nov, 20:00</div>
+      <div class="calm">
+        <div class="dot"></div>
+        <div class="big">Okay.<br>You said No.</div>
+        <p>Only you can see this. Have a good evening.</p>
+      </div>
+      <div class="change" style="color:var(--muted);border-color:var(--rule)"><span>Back to start</span><span>Change answer</span></div>
+    </div>
+  </div>
+  <figcaption><b>State b: after No</b>No light, no animation, no sad words. It does not show who else said No. The page just goes quiet.</figcaption>
+</figure>
+
+<!-- Sushi theme -->
+<figure>
+  <div class="phone sushi">
+    <div class="status"><span>10:02</span><span>5G</span></div>
+    <div class="scr">
+      <div class="strip"></div>
+      <div class="label">Sushi · Sat 22 Nov, 13:00</div>
+      <h2 class="youin">You're in.<br><em>See you at 13:00.</em></h2>
+      <ul class="yl">
+        <li><span>Leila is in</span><span>Yes</span></li>
+        <li><span>Marco is in</span><span>Yes</span></li>
+        <li><span>Giulia is in</span><span>Yes</span></li>
+        <li class="me"><span>You're in!</span><span>Yes</span></li>
+      </ul>
+      <div class="change" style="color:#7FA59A;border-color:#1F3530"><span>Sushi Zen, Corso Vinzaglio 8</span><span>Change answer</span></div>
+    </div>
+  </div>
+  <figcaption><b>State c: sushi theme</b>Same layout, new mood: cool sea-green dark, salmon light, a thin nori stripe. Burger gets warm brown and grill orange (see state a).</figcaption>
+</figure>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-replay]').forEach(function(b){
+  b.addEventListener('click',function(){var t=document.getElementById(b.dataset.replay);t.classList.remove('play');void t.offsetWidth;t.classList.add('play');});
+});
+</script>
+</body>
+</html>

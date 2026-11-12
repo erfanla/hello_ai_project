@@ -1,0 +1,78 @@
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created, ready for development
+#   - in-progress: Developer actively working on implementation
+#   - review: Implementation complete, ready for review
+#   - done: Story completed
+
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+
+# Action Item Status:
+#   - open: Committed during a retrospective, not yet addressed
+#   - in-progress: Actively being worked on
+#   - done: Completed
+
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when its first story starts (via build's sprint sync)
+# - Stories can be worked in parallel if team capacity allows
+# - Developer typically creates the next story after the previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+# - Retrospective appends its action items to action_items; the status view surfaces open ones
+generated: 11-11-2026 23:28
+last_updated: 11-12-2026 14:26
+project: hello_ai_project
+project_key: NOKEY
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+development_status:
+  epic-1: in-progress
+  1-1-the-app-runs-on-my-laptop: review
+  1-2-the-app-is-live-on-the-internet: backlog
+  1-3-sign-up-log-in-and-log-out: backlog
+  1-4-pick-your-avatar: backlog
+  1-5-create-a-group: backlog
+  1-6-join-with-a-group-link: backlog
+  1-7-admin-reset-a-friend-s-password: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-create-and-publish-a-plan: backlog
+  2-2-waiting-for-your-answer: backlog
+  2-3-count-me-in-or-i-ll-pass: backlog
+  2-4-the-yes-celebration: backlog
+  2-5-watch-the-yes-list-grow: backlog
+  2-6-the-deadline-closes-the-plan: backlog
+  2-7-choose-people: backlog
+  2-8-plan-with-a-time-window: backlog
+  2-9-save-as-draft: backlog
+  2-10-my-plans: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-notes-for-the-yes-list: backlog
+  3-2-cancel-a-plan: backlog
+  3-3-edit-place-or-time: backlog
+  3-4-still-in-or-not-anymore: backlog
+  3-5-the-updated-mark: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-install-the-app-on-my-phone: backlog
+  4-2-turn-on-notifications: backlog
+  4-3-new-plan-notification: backlog
+  4-4-answer-from-the-notification-android: backlog
+  4-5-deadline-result-notification: backlog
+  4-6-cancelled-and-changed-notifications: backlog
+  4-7-the-notifications-off-banner: backlog
+  4-8-test-results-for-the-4-weeks: backlog
+  epic-4-retrospective: optional

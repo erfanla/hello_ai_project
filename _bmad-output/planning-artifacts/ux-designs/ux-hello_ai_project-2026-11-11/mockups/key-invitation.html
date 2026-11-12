@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Key screen — Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* KEY SCREEN: Invitation page (one page, 4 states)
+   Governed by (spine still empty — memlog decisions):
+   - Answer page: Invitation info + Yes List at a glance; Yes / No on the same page.
+   - Signature moment: after Yes the activity icon (burger) pops OUT of the phone (from direction C Tavolo — motion only,
+     not its green table look), then avatars pop in one by one around the icon: 'Reza is in', 'Sara is in', 'You're in!'.
+   - Sally's guardrails: No stays calm and neutral, no animation; reduced-motion = final state; vibration Android-only, sound off.
+   - Faces v1: emoji face on a gradient shape, no photos, no initials.
+   - IA: states unanswered / said Yes + celebration + Yes List + Notes / said No calm / Inviter view (growing Yes List, Notes, Edit/Cancel).
+   - PRD FR-8 (Answer final in v1: NO 'Change answer'), FR-9 (Silent No: never show who said No or the full Guest List),
+     FR-11 (Notes max 280 chars, only Inviter + Yes List), FR-13 (Cancel), FR-14 (Edit place/time; YES_PENDING = 'not confirmed yet'). */
+/* ---- Notte Pura tokens (package 1, color-themes-1.html) — exact hex ----
+   Fonts (exception to the brief, approved typography decision):
+   - Headlines: "Gloock" (Google Fonts) — high-contrast, elegant display serif; rarer than Playfair/DM Serif.
+   - Body, times, buttons: "Onest" (Google Fonts) — clean, friendly sans with clear numbers.
+   Avatar = emoji face on a soft gradient shape (memlog: Faces v1 option 2). No initials.
+   Roster: Ali 🐙 a3/sh3 (the viewer) · Soroush 🦊 a0/sh0 · Sara 🐸 a1/sh1 · Reza 🐻 a2/sh2 · Leila 🦄 a4/sh4
+   Amber (--yes) is kept for Yes, celebration and Publish only. */
+:root{--bg:#000000;--sf:#141414;--tx:#FFFFFF;--mu:#A3A3A3;--ln:#2B2B2B;--yes:#FFB547;--yt:#000000;--no:#1F1F1F;--nt:#FFFFFF;
+--a0:linear-gradient(135deg,#FFD25E,#FF9A1F);--a1:linear-gradient(135deg,#4FE3A5,#18B877);--a2:linear-gradient(135deg,#7D95FF,#8A5CFF);--a3:linear-gradient(135deg,#FF7A6B,#FF4F8B);--a4:linear-gradient(135deg,#F7F2E8,#CFC6B4);
+--serif:"Gloock",ui-serif,Georgia,serif;--sans:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);padding:40px 16px 96px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.page-h{max-width:1560px;margin:0 auto 40px}
+.page-h h1{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.1}
+.page-h p{color:var(--mu);margin-top:8px;max-width:720px;line-height:1.5;font-size:15px}
+.row{display:flex;flex-wrap:wrap;gap:48px 40px;justify-content:center;align-items:flex-start;max-width:1560px;margin:0 auto}
+figure{width:360px;max-width:100%}
+figcaption{color:var(--mu);font-size:14px;line-height:1.5;margin-top:16px}
+figcaption b{color:var(--tx);display:block;font-weight:600;margin-bottom:2px}
+.phone{width:360px;max-width:100%;min-height:760px;background:var(--bg);border:1px solid var(--ln);border-radius:40px;padding:14px 20px 24px;position:relative;display:flex;flex-direction:column}
+.status{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:14px;padding:0 8px}
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.mu{color:var(--mu)}
+.lbl{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--mu);font-weight:600}
+.av{display:inline-grid;place-items:center;width:40px;height:40px;font-size:22px;line-height:1;flex:none}
+.av.s{width:28px;height:28px;font-size:15px}
+.sh0{border-radius:50%}.sh1{border-radius:50% 50% 50% 10px}.sh2{border-radius:50% 50% 14px 14px}.sh3{border-radius:14px}.sh4{border-radius:50% 10px 50% 10px}
+.av.s.sh1{border-radius:50% 50% 50% 7px}.av.s.sh2{border-radius:50% 50% 9px 9px}.av.s.sh3{border-radius:9px}.av.s.sh4{border-radius:50% 7px 50% 7px}
+.g0{background:var(--a0)}.g1{background:var(--a1)}.g2{background:var(--a2)}.g3{background:var(--a3)}.g4{background:var(--a4)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:999px;font:600 17px/1 var(--sans);border:0;width:100%;cursor:pointer;text-decoration:none}
+.btn.yes{background:var(--yes);color:var(--yt)}
+.btn.no{background:var(--no);color:var(--nt)}
+.btn.white{background:#FFFFFF;color:#000000}
+.btn.ghost{background:transparent;color:var(--tx);border:1px solid var(--ln)}
+.btn.text{background:transparent;color:var(--mu);min-height:44px;font-weight:500;font-size:15px}
+.back{display:inline-flex;align-items:center;min-height:44px;color:var(--mu);font-size:15px;text-decoration:none;gap:6px}
+.replay{margin-top:14px;min-height:44px;padding:0 20px;border-radius:999px;background:var(--no);color:var(--tx);border:1px solid var(--ln);font:600 14px var(--sans);cursor:pointer}
+
+.phone{overflow:visible}
+.host{display:flex;align-items:center;gap:10px;margin:8px 0 18px;font-size:15px}
+.hero{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+.hero .emo{font-size:56px;line-height:1}
+.hero h2{font-size:46px;line-height:1}
+.facts{background:var(--sf);border:1px solid var(--ln);border-radius:24px;padding:6px 16px}
+.f{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--ln);font-size:15px;line-height:1.35}
+.f:last-child{border-bottom:0}
+.f .k{width:52px;flex:none;color:var(--mu);font-size:13px;padding-top:2px}
+.f .sub{color:var(--mu);font-size:14px}
+.cost{display:inline-block;border:1px solid var(--ln);border-radius:999px;padding:2px 10px;font-weight:600;font-size:14px}
+.dl{display:flex;align-items:center;gap:8px;font-weight:600}
+.dl i{width:7px;height:7px;border-radius:50%;background:var(--tx)}
+.going{margin-top:20px}
+.people{display:flex;gap:16px;margin-top:10px}
+.person{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px}
+.person .av{width:52px;height:52px;font-size:28px}
+.answer{margin-top:auto;padding-top:24px;display:flex;flex-direction:column;gap:10px}
+.answer .btn{min-height:58px;font-size:18px} /* Count me in and I'll pass: same height, same width, same type; only amber marks Yes */
+.tiny{font-size:13px;text-align:center;margin-top:4px}
+
+/* ---- b · after Yes ---- */
+.clip{position:absolute;inset:0;border-radius:40px;overflow:hidden;pointer-events:none}
+.glow{position:absolute;left:50%;top:40px;width:460px;height:460px;margin-left:-230px;background:radial-gradient(circle,rgba(255,181,71,.24),rgba(255,181,71,0) 62%);opacity:.7}
+.jump{position:absolute;left:50%;top:150px;width:140px;margin-left:-70px;text-align:center;font-size:130px;line-height:1;z-index:20;opacity:0;pointer-events:none;filter:drop-shadow(0 20px 18px rgba(0,0,0,.6))}
+.spark{position:absolute;left:50%;top:230px;width:16px;height:16px;z-index:19;opacity:0;pointer-events:none}
+.spark:nth-of-type(1){background:var(--a0);border-radius:50%;--x:-170px;--y:-420px;--r:220deg}
+.spark:nth-of-type(2){background:var(--a3);border-radius:4px;--x:160px;--y:-480px;--r:-260deg}
+.spark:nth-of-type(3){background:var(--a1);border-radius:50% 50% 50% 4px;--x:-90px;--y:-560px;--r:180deg;width:12px;height:12px}
+.spark:nth-of-type(4){background:var(--a2);border-radius:50%;--x:210px;--y:-320px;--r:320deg;width:12px;height:12px}
+.spark:nth-of-type(5){background:#FFB547;border-radius:3px;--x:-230px;--y:-300px;--r:-200deg;width:10px;height:10px}
+.spark:nth-of-type(6){background:var(--a4);border-radius:50%;--x:70px;--y:-620px;--r:260deg;width:10px;height:10px}
+.stage{position:relative;height:236px;margin:2px 0 10px}
+.hub{position:absolute;left:calc(50% - 52px);top:6px;width:104px;height:104px;border-radius:50%;background:var(--sf);border:1px solid var(--ln);display:grid;place-items:center;font-size:58px;box-shadow:0 0 0 8px rgba(255,181,71,.08)}
+.who{position:absolute;width:104px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.who .av{width:50px;height:50px;font-size:27px}
+.w1{left:0;top:64px}.w2{right:0;top:64px}.w3{left:calc(50% - 52px);top:128px}
+.who .say{font-size:13px;font-weight:600;background:#1F1F1F;border:1px solid var(--ln);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.w3 .av{width:62px;height:62px;font-size:34px;box-shadow:0 0 0 3px #000,0 0 0 5px var(--yes),0 0 34px 6px rgba(255,181,71,.5)}
+.w3 .say{background:var(--yes);color:var(--yt);border-color:var(--yes);font-size:14px}
+.yeshead h2{font-size:38px;line-height:1.05}
+.yeshead p{font-size:14px;margin-top:6px;line-height:1.45}
+.notes{margin-top:22px;border-top:1px solid var(--ln);padding-top:18px}
+.nhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.nhead small{font-size:12px;color:var(--mu)}
+.note{display:flex;gap:10px;margin-bottom:12px}
+.note .bub{background:var(--sf);border:1px solid var(--ln);border-radius:4px 18px 18px 18px;padding:9px 13px;font-size:15px;line-height:1.35}
+.note .nm{font-size:12px;color:var(--mu);margin-bottom:3px}
+.compose{border:1px solid var(--ln);border-radius:20px;padding:12px 12px 10px 14px;margin-top:4px}
+.compose textarea{width:100%;background:transparent;border:0;color:var(--tx);font:400 15px/1.4 var(--sans);resize:none;outline:none;min-height:24px}
+.compose textarea::placeholder{color:var(--mu)}
+.cbar{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:12px}
+.send{min-height:44px;padding:0 18px;border-radius:999px;border:0;background:#FFFFFF;color:#000;font:600 15px var(--sans);cursor:pointer}
+.drop{font-size:13px;margin-top:12px;text-align:center}
+
+/* the Yes sequence (runs on .play) */
+.play .jump{animation:jump 1.5s cubic-bezier(.25,1.4,.5,1) both}
+.play .spark{animation:toss 1.5s cubic-bezier(.2,.6,.4,1) both}
+.play .spark:nth-of-type(2){animation-delay:.05s}.play .spark:nth-of-type(3){animation-delay:.1s}.play .spark:nth-of-type(4){animation-delay:.12s}.play .spark:nth-of-type(6){animation-delay:.15s}
+.play .glow{animation:glow 2.6s ease-out both}
+.play .hub{animation:land .7s .95s cubic-bezier(.3,1.6,.5,1) both}
+.play .who{animation:pop .55s cubic-bezier(.3,1.7,.5,1) both}
+.play .w1{animation-delay:1.35s}.play .w2{animation-delay:1.7s}.play .w3{animation-delay:2.05s}
+.play .yeshead{animation:rise .5s .5s ease-out both}
+.play .later{animation:rise .6s 2.5s ease-out both}
+@keyframes jump{0%{opacity:0;transform:translateY(160px) scale(.3) rotate(-20deg)}30%{opacity:1;transform:translateY(-300px) scale(1.6) rotate(10deg)}60%{opacity:1;transform:translateY(-240px) scale(1.4) rotate(-6deg)}100%{opacity:0;transform:translateY(-520px) scale(.8) rotate(20deg)}}
+@keyframes toss{0%{opacity:1;transform:translate(0,0) rotate(0)}55%{opacity:1;transform:translate(var(--x),var(--y)) rotate(var(--r))}100%{opacity:0;transform:translate(calc(var(--x)*1.2),80px) rotate(var(--r))}}
+@keyframes glow{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.15)}100%{opacity:.7;transform:none}}
+@keyframes land{0%{opacity:0;transform:scale(.2)}70%{opacity:1;transform:scale(1.15)}100%{transform:none}}
+@keyframes pop{0%{opacity:0;transform:translateY(24px) scale(.3)}65%{opacity:1;transform:translateY(-6px) scale(1.12)}100%{opacity:1;transform:none}}
+@keyframes rise{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:none}}
+
+/* ---- c · after No ---- */
+.calm{margin:auto 0;padding:0 4px}
+.calm .was{display:flex;align-items:center;gap:10px;font-size:14px;margin-bottom:26px}
+.calm .was .t{width:40px;height:40px;border-radius:12px;background:#1F1F1F;display:grid;place-items:center;font-size:22px;filter:grayscale(.7);opacity:.7}
+.calm h2{font-size:40px;line-height:1.05}
+.calm p{font-size:16px;margin-top:12px}
+.calm .btn{margin-top:32px}
+
+/* ---- d · Inviter view ---- */
+.mine{display:flex;justify-content:space-between;align-items:center}
+.tag{font-size:12px;font-weight:600;border:1px solid var(--ln);border-radius:999px;padding:5px 10px}
+.small-hero{display:flex;align-items:center;gap:14px;margin:10px 0 14px}
+.small-hero .emo{font-size:44px}
+.small-hero h2{font-size:36px;line-height:1}
+.line{font-size:14px;line-height:1.5}
+.ylh{display:flex;justify-content:space-between;align-items:center;margin:20px 0 6px}
+.live{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--mu)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--yes);box-shadow:0 0 0 0 rgba(255,181,71,.6);animation:beat 1.8s infinite}
+@keyframes beat{0%{box-shadow:0 0 0 0 rgba(255,181,71,.55)}70%{box-shadow:0 0 0 8px rgba(255,181,71,0)}100%{box-shadow:0 0 0 0 rgba(255,181,71,0)}}
+.yl{list-style:none}
+.yl li{display:flex;align-items:center;gap:12px;min-height:52px;border-bottom:1px solid var(--ln);font-size:15px}
+.yl li:last-child{border-bottom:0}
+.yl .st{margin-left:auto;font-size:13px;color:var(--mu)}
+.yl .pend .av{opacity:.5;outline:1.5px dashed var(--mu);outline-offset:3px}
+.yl .pend .st{border:1px dashed var(--mu);border-radius:999px;padding:4px 9px;color:var(--tx)}
+.yl .new .st{color:var(--yes);font-weight:600}
+.play .yl .new{animation:pop .55s .4s cubic-bezier(.3,1.7,.5,1) both}
+.owner{margin-top:auto;padding-top:20px;display:flex;flex-direction:column;gap:4px}
+
+@media (prefers-reduced-motion: reduce){
+  .play .jump,.play .spark,.play .glow,.play .hub,.play .who,.play .yeshead,.play .later,.play .yl .new,.live i{animation:none !important}
+  .replay{display:none}
+}
+</style>
+</head>
+<body>
+<header class="page-h">
+  <h1>Invitation</h1>
+  <p>One page, four states. Ali sees the plan and who is going, then answers with one tap. Yes gets a big, happy moment. No stays quiet and private. Soroush, the Inviter, sees his Yes List grow.</p>
+</header>
+<div class="row">
+
+<!-- a · unanswered -->
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:18</span><span>●●● ▮</span></div>
+    <a class="back" href="#">‹ Home</a>
+    <div class="host"><span class="av s g0 sh0">🦊</span><span class="mu">Soroush invites you</span></div>
+    <div class="hero"><span class="emo">🍔</span><h2 class="serif">Burger tonight</h2></div>
+    <div class="facts">
+      <div class="f"><span class="k">Where</span><div>Burgeria da Gino<div class="sub">Via Roma 14</div></div></div>
+      <div class="f"><span class="k">When</span><div>Fri 21 Nov, 20:00</div></div>
+      <div class="f"><span class="k">Cost</span><div><span class="cost">$$</span></div></div>
+      <div class="f"><span class="k">Answer</span><div class="dl"><i></i>42 min left</div></div>
+    </div>
+    <div class="going">
+      <span class="lbl">Going</span>
+      <div class="people">
+        <div class="person"><span class="av g1 sh1">🐸</span>Sara</div>
+        <div class="person"><span class="av g2 sh2">🐻</span>Reza</div>
+      </div>
+    </div>
+    <div class="answer">
+      <button class="btn yes">Count me in</button>
+      <button class="btn no">I'll pass</button>
+      <p class="tiny mu">No is always fine. Nobody sees it.</p>
+    </div>
+  </div>
+  <figcaption><b>a · Not answered yet</b>Everything to decide at a glance: what, where, when, Cost Tag, time left, and who is going (the Yes List only). Count me in and I'll pass are exactly the same size; only the amber fill marks Yes.</figcaption>
+</figure>
+
+<!-- b · after Yes -->
+<figure>
+  <div class="phone play" id="yes">
+    <div class="clip"><div class="glow"></div></div>
+    <span class="spark"></span><span class="spark"></span><span class="spark"></span><span class="spark"></span><span class="spark"></span><span class="spark"></span>
+    <div class="jump" aria-hidden="true">🍔</div>
+    <div class="status"><span>19:19</span><span>●●● ▮</span></div>
+    <a class="back" href="#">‹ Home</a>
+    <div class="stage">
+      <div class="hub">🍔</div>
+      <div class="who w1"><span class="av g2 sh2">🐻</span><span class="say">Reza is in</span></div>
+      <div class="who w2"><span class="av g1 sh1">🐸</span><span class="say">Sara is in</span></div>
+      <div class="who w3"><span class="av g3 sh3">🐙</span><span class="say">You're in!</span></div>
+    </div>
+    <div class="yeshead">
+      <h2 class="serif">Burger tonight</h2>
+      <p class="mu">Fri 21 Nov, 20:00 · Burgeria da Gino, Via Roma 14 · $$</p>
+    </div>
+    <div class="later">
+      <div class="notes">
+        <div class="nhead"><span class="lbl">Notes</span><small>Only people going see these</small></div>
+        <div class="note"><span class="av s g1 sh1">🐸</span><div><div class="nm">Sara · 19:02</div><div class="bub">Meet at the door at 8?</div></div></div>
+        <div class="note"><span class="av s g2 sh2">🐻</span><div><div class="nm">Reza · 19:10</div><div class="bub">I'm 5 min late 🙏</div></div></div>
+        <div class="compose">
+          <textarea maxlength="280" rows="1" placeholder="Write a note…" aria-label="Write a note"></textarea>
+          <div class="cbar"><span class="mu">0 / 280</span><button class="send">Send</button></div>
+        </div>
+        <p class="drop mu">Can't come anymore? Just say it here.</p>
+      </div>
+    </div>
+  </div>
+  <button class="replay" data-replay="yes">↻ Replay Yes</button>
+  <figcaption><b>b · Right after Yes</b>The burger jumps out past the top of the phone with a few colored bits, then lands in the middle. Friends pop in one by one: Reza, Sara, then You with an amber glow. Phone vibrates on Android; sound is off. Notes open below (280 characters max). No "Change answer". With reduced motion, this final state shows at once.</figcaption>
+</figure>
+
+<!-- c · after No -->
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:19</span><span>●●● ▮</span></div>
+    <a class="back" href="#">‹ Home</a>
+    <div class="calm">
+      <div class="was"><span class="t">🍔</span><span class="mu">Burger tonight · Fri 21 Nov</span></div>
+      <h2 class="serif">Okay. You said no.</h2>
+      <p class="mu">Only you can see this.</p>
+      <a class="btn ghost" href="#">Back to Home</a>
+    </div>
+  </div>
+  <figcaption><b>c · Right after No</b>Calm and short. No animation, no sad face, no list of others. Nobody else ever sees this No.</figcaption>
+</figure>
+
+<!-- d · Inviter view -->
+<figure>
+  <div class="phone play" id="host">
+    <div class="status"><span>19:24</span><span>●●● ▮</span></div>
+    <div class="mine"><a class="back" href="#">‹ Home</a><span class="tag">Your plan</span></div>
+    <div class="small-hero"><span class="emo">🍔</span><h2 class="serif">Burger tonight</h2></div>
+    <p class="line mu">Fri 21 Nov, 20:00 · Burgeria da Gino, Via Roma 14 · $$</p>
+    <p class="line" style="margin-top:4px;font-weight:600">Answers close in 36 min</p>
+
+    <div class="ylh"><span class="lbl">Yes List</span><span class="live"><i></i>Updates live</span></div>
+    <ul class="yl">
+      <li><span class="av s g1 sh1">🐸</span>Sara<span class="st">is in</span></li>
+      <li><span class="av s g2 sh2">🐻</span>Reza<span class="st">is in</span></li>
+      <li class="pend"><span class="av s g4 sh4">🦄</span>Leila<span class="st">not confirmed yet</span></li>
+      <li class="new"><span class="av s g3 sh3">🐙</span>Ali<span class="st">is in · just now</span></li>
+    </ul>
+
+    <div class="notes">
+      <div class="nhead"><span class="lbl">Notes</span><small>Only you and people going</small></div>
+      <div class="note"><span class="av s g1 sh1">🐸</span><div><div class="nm">Sara · 19:02</div><div class="bub">Meet at the door at 8?</div></div></div>
+      <div class="note"><span class="av s g2 sh2">🐻</span><div><div class="nm">Reza · 19:10</div><div class="bub">I'm 5 min late 🙏</div></div></div>
+      <div class="compose">
+        <textarea maxlength="280" rows="1" placeholder="Write a note…" aria-label="Write a note"></textarea>
+        <div class="cbar"><span class="mu">0 / 280</span><button class="send">Send</button></div>
+      </div>
+    </div>
+
+    <div class="owner">
+      <button class="btn ghost">Edit place or time</button>
+      <button class="btn text">Cancel plan</button>
+    </div>
+  </div>
+  <button class="replay" data-replay="host">↻ Replay new Yes</button>
+  <figcaption><b>d · Soroush, the Inviter</b>The Yes List grows live (Ali just popped in). Leila shows "not confirmed yet": the place or time changed and she has not tapped Still in yet. Only Yes people appear: no No list, no waiting list. Edit place or time, or Cancel plan.</figcaption>
+</figure>
+
+</div>
+<script>
+/* Only job: replay the animations. */
+document.querySelectorAll('[data-replay]').forEach(function(b){b.addEventListener('click',function(){var p=document.getElementById(b.dataset.replay);p.classList.remove('play');void p.offsetWidth;p.classList.add('play');});});
+</script>
+</body>
+</html>

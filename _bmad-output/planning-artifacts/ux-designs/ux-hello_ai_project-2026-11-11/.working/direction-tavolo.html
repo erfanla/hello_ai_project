@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction C: Tavolo</title>
+<style>
+/* =========================================================
+   DIRECTION C — "TAVOLO" (the table) — tactile, playful, physical
+   Palette
+   --felt     #13201A  screen: dark green card-table felt
+   --felt-2   #1A2B23  raised ticket on the felt
+   --edge     #0B140F  under-edge / shadow of physical things
+   --chalk    #E9EEE6  text
+   --moss     #84A393  secondary text
+   --yolk     #F4C430  Yes keycap top     --yolk-edge #A57E00
+   --slate    #2C3E35  No keycap top      --slate-edge #17251E
+   Friend tokens (poker chips): Sara #E2725B  Reza #5BA7E2  Ali #F4C430  Leila #C9A0DC  Marco #8CCB6E  Giulia #F0A35E
+   Burger theme  felt #22120D  checks #2C1711/#331B14  keycap #E8432E edge #8E2214  mustard #FFC21A
+   Sushi theme   wood #1A140F  slats #211913/#261D16  keycap #FF8C6B edge #A9482F  wasabi #9DBF5A
+   Type: system rounded (SF Pro Rounded / ui-rounded), weights 500-800, friendly.
+   Motion: springy and physical. Keys press down, tokens are thrown up out of the
+   phone and fall back onto the table with a bounce.
+   ========================================================= */
+:root{
+  --felt:#13201A; --felt-2:#1A2B23; --edge:#0B140F; --chalk:#E9EEE6; --moss:#84A393;
+  --yolk:#F4C430; --yolk-edge:#A57E00; --slate:#2C3E35; --slate-edge:#17251E;
+  --round: ui-rounded,"SF Pro Rounded","Nunito","Varela Round",-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0F0C;color:var(--chalk);font-family:var(--round);padding:40px 16px 100px}
+.intro{max-width:760px;margin-bottom:56px}
+.intro .tag{display:inline-block;font-weight:800;font-size:12px;background:var(--yolk);color:#1E1600;padding:5px 10px;border-radius:8px;box-shadow:0 3px 0 var(--yolk-edge);transform:rotate(-2deg)}
+.intro h1{font-weight:800;font-size:52px;letter-spacing:-.02em;margin:14px 0 10px}
+.intro p{color:var(--moss);font-size:15.5px;line-height:1.6;max-width:62ch}
+.row{display:flex;flex-wrap:wrap;gap:64px 40px;align-items:flex-start}
+figure{width:360px;max-width:100%}
+figcaption{font-size:12.5px;color:var(--moss);margin-top:16px;line-height:1.5}
+figcaption b{display:block;color:var(--chalk);font-weight:800;font-size:14px}
+.replay{margin-top:14px;font:800 14px var(--round);background:var(--yolk);color:#1E1600;border:0;border-radius:12px;padding:10px 16px;box-shadow:0 4px 0 var(--yolk-edge);cursor:pointer;transition:transform .08s,box-shadow .08s}
+.replay:active{transform:translateY(4px);box-shadow:0 0 0 var(--yolk-edge)}
+
+.phone{width:360px;max-width:100%;height:740px;border-radius:38px;position:relative;overflow:hidden;display:flex;flex-direction:column;outline:3px solid #050806;
+  background:
+   radial-gradient(circle at 20% 10%, rgba(255,255,255,.035), transparent 50%),
+   repeating-radial-gradient(circle at 30% 40%, rgba(255,255,255,.012) 0 1px, transparent 1px 3px),
+   var(--felt)}
+.phone.open{overflow:visible}
+.status{height:36px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-weight:700;font-size:12px;color:var(--moss)}
+.scr{flex:1;display:flex;flex-direction:column;padding:8px 18px 22px;position:relative}
+
+/* ticket */
+.ticket{background:var(--felt-2);border-radius:22px;padding:18px 18px 16px;box-shadow:0 6px 0 var(--edge);position:relative;transform:rotate(-1.2deg)}
+.ticket .from{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--moss)}
+.chip{width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;font-weight:800;font-size:12px;color:#121212;flex:none;
+  box-shadow:0 3px 0 rgba(0,0,0,.45), inset 0 0 0 3px rgba(255,255,255,.35), inset 0 0 0 5px rgba(0,0,0,.08)}
+.ticket h2{font-weight:800;font-size:34px;line-height:1.05;letter-spacing:-.02em;margin-top:12px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pill{font-weight:700;font-size:12.5px;padding:7px 11px;border-radius:999px;background:#22362C;color:var(--chalk)}
+.pill.cost{background:var(--chalk);color:#13201A}
+/* perforated edge */
+.ticket::after{content:"";position:absolute;left:14px;right:14px;bottom:-1px;height:0;border-bottom:2px dashed #2D4438}
+
+.row2{display:flex;gap:12px;margin-top:20px;align-items:center}
+.dial{width:74px;height:74px;border-radius:50%;flex:none;display:grid;place-items:center;
+  background:conic-gradient(var(--yolk) 0 var(--p,70%), #22362C var(--p,70%) 100%);box-shadow:0 4px 0 var(--edge)}
+.dial div{width:56px;height:56px;border-radius:50%;background:var(--felt);display:grid;place-items:center;text-align:center;font-weight:800;font-size:17px;line-height:1}
+.dial small{display:block;font-size:9px;color:var(--moss);font-weight:700}
+.row2 .dl{font-weight:700;font-size:15px;line-height:1.35}
+.row2 .dl span{color:var(--moss);font-weight:600;font-size:13px;display:block}
+
+.goingbox{margin-top:18px;display:flex;align-items:center;gap:12px}
+.stack{display:flex}
+.stack .chip+.chip{margin-left:-8px}
+.goingbox p{font-weight:700;font-size:15px}
+
+.keys{margin-top:auto;display:grid;grid-template-columns:1.5fr 1fr;gap:12px}
+.key{height:108px;border:0;border-radius:24px;font:800 34px var(--round);cursor:pointer;text-align:left;padding:0 22px;transition:transform .08s,box-shadow .08s}
+.key.yes{background:var(--yolk);color:#1E1600;box-shadow:0 9px 0 var(--yolk-edge), 0 14px 18px rgba(0,0,0,.35)}
+.key.no{background:var(--slate);color:var(--chalk);box-shadow:0 9px 0 var(--slate-edge), 0 14px 18px rgba(0,0,0,.35);font-size:28px}
+.key:active{transform:translateY(9px);box-shadow:0 0 0 transparent}
+.key small{display:block;font-size:12px;font-weight:700;opacity:.7;margin-top:2px}
+
+/* start screen */
+.title{font-weight:800;font-size:22px;margin:6px 0 14px;display:flex;align-items:center;gap:10px}
+.badge{background:var(--yolk);color:#1E1600;border-radius:10px;font-size:13px;padding:3px 9px;box-shadow:0 3px 0 var(--yolk-edge)}
+.inv{display:flex;gap:12px;align-items:center;background:var(--felt-2);border-radius:20px;padding:14px;box-shadow:0 5px 0 var(--edge);margin-bottom:14px}
+.inv:nth-of-type(odd){transform:rotate(-.8deg)}
+.inv:nth-of-type(even){transform:rotate(.7deg) translateX(8px)}
+.inv .t{font-weight:800;font-size:18px}
+.inv .s{font-size:12.5px;color:var(--moss);font-weight:600;margin-top:2px}
+.inv .go{margin-left:auto;text-align:center;flex:none}
+.inv .mini{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--yolk) 0 var(--p), #22362C var(--p) 100%)}
+.inv .mini div{width:38px;height:38px;border-radius:50%;background:var(--felt-2);display:grid;place-items:center;font-weight:800;font-size:11px;line-height:1.05;text-align:center}
+.plans{margin-top:22px}
+.plans h4{font-weight:800;font-size:15px;color:var(--moss);margin-bottom:6px}
+.plan{display:flex;justify-content:space-between;align-items:center;padding:12px 2px;border-bottom:2px dotted #2D4438;font-weight:700;font-size:14.5px}
+.plan span:last-child{color:var(--moss);font-size:12px}
+.fab{margin-top:auto;align-self:flex-start;background:var(--chalk);color:#13201A;border:0;border-radius:18px;font:800 17px var(--round);padding:16px 22px;box-shadow:0 6px 0 #9DAA9F}
+
+/* YES celebration (burger) */
+.phone.burger{background:repeating-conic-gradient(#2C1711 0 25%, #331B14 0 50%) 0 0/44px 44px, #22120D}
+.burger .ticket{background:#2A1610;box-shadow:0 6px 0 #120805}
+.burger .ticket::after{border-color:#4A2A1E}
+.burger .pill{background:#3A2017}
+.big-emoji{position:absolute;left:50%;top:330px;font-size:120px;line-height:1;margin-left:-60px;z-index:10;pointer-events:none;opacity:0;filter:drop-shadow(0 18px 10px rgba(0,0,0,.5))}
+.toss{position:absolute;z-index:9;width:26px;height:26px;border-radius:50%;left:50%;top:600px;opacity:0;pointer-events:none;box-shadow:inset 0 0 0 4px rgba(255,255,255,.35)}
+.toss:nth-of-type(1){background:#FFC21A;--x:-190px;--y:-560px;--r:240deg}
+.toss:nth-of-type(2){background:#E8432E;--x:170px;--y:-640px;--r:-300deg}
+.toss:nth-of-type(3){background:#E9EEE6;--x:-90px;--y:-700px;--r:180deg}
+.toss:nth-of-type(4){background:#FFC21A;--x:230px;--y:-420px;--r:400deg;width:18px;height:18px}
+.toss:nth-of-type(5){background:#5BA7E2;--x:-250px;--y:-380px;--r:-200deg;width:20px;height:20px}
+.toss:nth-of-type(6){background:#E2725B;--x:60px;--y:-760px;--r:300deg}
+.yl{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.yl li{list-style:none;display:flex;align-items:center;gap:12px;background:#2A1610;border-radius:999px;padding:7px 16px 7px 7px;font-weight:800;font-size:17px;box-shadow:0 4px 0 #120805;align-self:flex-start}
+.yl li:nth-child(2){margin-left:22px}
+.yl li.me{background:#E8432E;color:#fff;box-shadow:0 5px 0 #8E2214;font-size:20px;margin-left:8px}
+.yl li .chip{width:36px;height:36px}
+.done{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;color:#C9A890}
+.done .pressed{background:#E8432E;color:#fff;border-radius:18px;padding:12px 18px;box-shadow:0 2px 0 #8E2214;transform:translateY(7px);font-weight:800;font-size:16px}
+
+.play .big-emoji{animation:jump 1.5s cubic-bezier(.25,1.4,.5,1) both}
+.play .toss{animation:toss 1.6s cubic-bezier(.2,.6,.4,1) both}
+.play .toss:nth-of-type(2){animation-delay:.05s}.play .toss:nth-of-type(3){animation-delay:.1s}
+.play .toss:nth-of-type(4){animation-delay:.12s}.play .toss:nth-of-type(5){animation-delay:.04s}.play .toss:nth-of-type(6){animation-delay:.15s}
+.play .ticket{animation:lift .9s cubic-bezier(.3,1.6,.5,1) both}
+.play .yl li{animation:drop .55s cubic-bezier(.3,1.7,.5,1) both}
+.play .yl li:nth-child(1){animation-delay:1.25s}
+.play .yl li:nth-child(2){animation-delay:1.6s}
+.play .yl li:nth-child(3){animation-delay:1.95s}
+.play.phone{animation:felt .5s .35s steps(1) both}
+@keyframes jump{0%{opacity:0;transform:translateY(200px) scale(.3) rotate(-20deg)}30%{opacity:1;transform:translateY(-260px) scale(1.6) rotate(10deg)}60%{opacity:1;transform:translateY(-200px) scale(1.4) rotate(-6deg)}100%{opacity:0;transform:translateY(-480px) scale(.8) rotate(20deg)}}
+@keyframes toss{0%{opacity:1;transform:translate(0,0) rotate(0)}55%{opacity:1;transform:translate(var(--x),var(--y)) rotate(var(--r))}100%{opacity:0;transform:translate(calc(var(--x)*1.2),120px) rotate(var(--r))}}
+@keyframes lift{0%{transform:rotate(-1.2deg)}35%{transform:translateY(-40px) rotate(4deg) scale(1.08)}100%{transform:rotate(-1.2deg)}}
+@keyframes drop{0%{opacity:0;transform:translateY(-80px) rotate(-8deg) scale(.6)}100%{opacity:1;transform:none}}
+@keyframes felt{from{background:var(--felt)}to{}}
+
+/* NO */
+.calm{margin:auto 0;padding:0 4px}
+.calm .t{font-weight:800;font-size:34px;line-height:1.1}
+.calm p{color:var(--moss);font-size:15px;line-height:1.55;margin-top:12px;max-width:28ch;font-weight:600}
+.calm .stone{width:46px;height:46px;border-radius:50%;background:var(--slate);box-shadow:0 5px 0 var(--slate-edge);margin-bottom:22px}
+.dim{opacity:.55;transform:rotate(-1.2deg) scale(.96)}
+
+/* sushi */
+.phone.sushi{background:repeating-linear-gradient(90deg,#211913 0 26px,#261D16 26px 28px,#211913 28px 54px),#1A140F}
+.sushi .ticket{background:#2A2019;box-shadow:0 6px 0 #0F0B08}
+.sushi .ticket::after{border-color:#4A3A2D}
+.sushi .pill{background:#3A2D22}
+.sushi .yl li{background:#2A2019;box-shadow:0 4px 0 #0F0B08}
+.sushi .yl li.me{background:#FF8C6B;color:#2A120A;box-shadow:0 5px 0 #A9482F}
+.sushi .done{color:#BCA88F}
+.sushi .done .pressed{background:#FF8C6B;color:#2A120A;box-shadow:0 2px 0 #A9482F}
+.wasabi{position:absolute;right:22px;top:58px;width:34px;height:24px;border-radius:50% 50% 40% 40%;background:#9DBF5A;box-shadow:0 4px 0 #5E7A2A}
+
+@media (prefers-reduced-motion: reduce){
+  .play .big-emoji,.play .toss,.play .ticket,.play .yl li,.play.phone{animation:none !important}
+  .key,.replay{transition:none}
+}
+</style>
+</head>
+<body>
+
+<section class="intro">
+  <span class="tag">Direction C</span>
+  <h1>Tavolo</h1>
+  <p>The app is a dark green card table where friends throw their plans. Plans are paper tickets, friends are poker chips, and the answer buttons are big keys you can feel pressing down. When you say Yes, the activity jumps up out of the phone, chips fly off the table and fall back, and each friend lands in the Yes List with a bounce.</p>
+</section>
+
+<div class="row">
+
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:18</span><span>5G</span></div>
+    <div class="scr">
+      <div class="ticket">
+        <div class="from"><span class="chip" style="background:#F0A35E">S</span>Soroush asks:</div>
+        <h2>Burger tonight at 20:00 🍔</h2>
+        <div class="facts">
+          <span class="pill">Burgeria da Gino, Via Roma 14</span>
+          <span class="pill">Fri 21 Nov, 20:00</span>
+          <span class="pill cost">$$</span>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="dial" style="--p:70%"><div>42<small>min</small></div></div>
+        <div class="dl">Answer within 42 min<span>You can also answer later.</span></div>
+      </div>
+      <div class="goingbox">
+        <div class="stack"><span class="chip" style="background:#E2725B">S</span><span class="chip" style="background:#5BA7E2">R</span></div>
+        <p>Sara, Reza are going</p>
+      </div>
+      <div class="keys">
+        <button class="key yes">Yes<small>I'm in</small></button>
+        <button class="key no">No<small>Not this time</small></button>
+      </div>
+    </div>
+  </div>
+  <figcaption><b>Answer page (hero)</b>A ticket on the table, a timer dial, friends as chips, and two big physical keys. Try pressing them: they go down.</figcaption>
+</figure>
+
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:20</span><span>5G</span></div>
+    <div class="scr">
+      <div class="title">Waiting for your answer <span class="badge">2</span></div>
+      <div class="inv">
+        <span class="chip" style="background:#F0A35E;width:40px;height:40px">S</span>
+        <div><div class="t">Burger tonight 🍔</div><div class="s">Via Roma 14 · $$</div></div>
+        <div class="go"><div class="mini" style="--p:70%"><div>42<br>min</div></div></div>
+      </div>
+      <div class="inv">
+        <span class="chip" style="background:#C9A0DC;width:40px;height:40px">L</span>
+        <div><div class="t">Sushi Saturday 🍣</div><div class="s">Corso Vinzaglio 8 · $$$</div></div>
+        <div class="go"><div class="mini" style="--p:25%"><div>5<br>h</div></div></div>
+      </div>
+      <div class="plans">
+        <h4>My Plans</h4>
+        <div class="plan"><span>Aperitivo, Piazza Vittorio</span><span>Thu 20 Nov · 4 in</span></div>
+        <div class="plan"><span>Football, Valentino</span><span>Sun 23 Nov · 7 in</span></div>
+      </div>
+      <button class="fab">+ New plan</button>
+    </div>
+  </div>
+  <figcaption><b>Start screen</b>Open Invitations lie on top of the table like tickets, each with a small timer dial. My Plans is a simple list below.</figcaption>
+</figure>
+
+<figure>
+  <div class="phone open burger play" id="yesC">
+    <span class="toss"></span><span class="toss"></span><span class="toss"></span><span class="toss"></span><span class="toss"></span><span class="toss"></span>
+    <div class="big-emoji">🍔</div>
+    <div class="status"><span>19:21</span><span>5G</span></div>
+    <div class="scr">
+      <div class="ticket">
+        <div class="from"><span class="chip" style="background:#F0A35E">S</span>Soroush's plan</div>
+        <h2>You're in! Burger at 20:00</h2>
+        <div class="facts"><span class="pill">Via Roma 14</span><span class="pill">Fri 21 Nov</span><span class="pill cost">$$</span></div>
+      </div>
+      <ul class="yl">
+        <li><span class="chip" style="background:#5BA7E2">R</span>Reza is in</li>
+        <li><span class="chip" style="background:#E2725B">S</span>Sara is in</li>
+        <li class="me"><span class="chip" style="background:#FFC21A">A</span>You're in!</li>
+      </ul>
+      <div class="done"><span>Change answer</span><span class="pressed">Yes</span></div>
+    </div>
+  </div>
+  <button class="replay" data-replay="yesC">Replay Yes</button>
+  <figcaption><b>State a: after Yes (+ burger theme)</b>A big burger jumps up out of the phone, chips fly off the table and fall, the ticket lifts and lands. The felt turns into a dark red picnic check, then friends drop in one by one with a bounce. The Yes key stays pressed down.</figcaption>
+</figure>
+
+<figure>
+  <div class="phone">
+    <div class="status"><span>19:21</span><span>5G</span></div>
+    <div class="scr">
+      <div class="ticket dim">
+        <div class="from"><span class="chip" style="background:#F0A35E">S</span>Soroush's plan</div>
+        <h2>Burger tonight at 20:00</h2>
+      </div>
+      <div class="calm">
+        <div class="stone"></div>
+        <div class="t">Okay, not this time.</div>
+        <p>Your answer is only for you. Nobody sees who said No.</p>
+      </div>
+      <div class="done" style="color:var(--moss)"><span>Back to start</span><span>Change answer</span></div>
+    </div>
+  </div>
+  <figcaption><b>State b: after No</b>The ticket slides back a little, a calm grey stone sits on the table. No bounce, no colour, no other names.</figcaption>
+</figure>
+
+<figure>
+  <div class="phone sushi">
+    <div class="status"><span>10:02</span><span>5G</span></div>
+    <div class="scr">
+      <div class="wasabi"></div>
+      <div class="ticket">
+        <div class="from"><span class="chip" style="background:#C9A0DC">L</span>Leila's plan</div>
+        <h2>You're in! Sushi at 13:00 🍣</h2>
+        <div class="facts"><span class="pill">Corso Vinzaglio 8</span><span class="pill">Sat 22 Nov</span><span class="pill cost">$$$</span></div>
+      </div>
+      <ul class="yl">
+        <li><span class="chip" style="background:#C9A0DC">L</span>Leila is in</li>
+        <li><span class="chip" style="background:#8CCB6E">M</span>Marco is in</li>
+        <li class="me"><span class="chip" style="background:#FFC21A">A</span>You're in!</li>
+      </ul>
+      <div class="done"><span>Change answer</span><span class="pressed">Yes</span></div>
+    </div>
+  </div>
+  <figcaption><b>State c: sushi theme</b>The table becomes a dark bamboo mat, the keys turn salmon, and a little wasabi sits in the corner.</figcaption>
+</figure>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-replay]').forEach(function(b){
+  b.addEventListener('click',function(){var t=document.getElementById(b.dataset.replay);t.classList.remove('play');void t.offsetWidth;t.classList.add('play');});
+});
+</script>
+</body>
+</html>
